@@ -15,4 +15,4 @@ target_link_libraries(test_find_package Snore::SnoreGrowl++ Snore::SnoreGrowl)
 
 message(STATUS "testing via manual linkage")
 add_executable(test_manual_conan main.cpp)
-target_link_libraries(test_manual_conan -lsnoregrowl -lsnoregrowl++)
+target_link_libraries(test_manual_conan CONAN_PKG::snoregrowl++)
