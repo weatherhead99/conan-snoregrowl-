@@ -16,21 +16,22 @@ class SnoregrowlConan(ConanFile):
     def source(self):
         tools.get("https://github.com/Snorenotify/SnoreGrowl/archive/v%s.tar.gz"
                   % self.version, sha256=self.sha256)
-        
+
     def build(self):
         cmake = CMake(self)
         if self.options.shared:
             cmake.definitions["SNOREGROWL_STATIC"] = "OFF"
         else:
             cmake.definitions["SNOREGROWL_STATIC"] = "ON"
-            
+
         sf = os.path.join(self.source_folder,"SnoreGrowl-%s" % self.version)
         cmake.configure(source_folder=sf)
         cmake.build()
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs=tools.collect_libs(self)
+        #note specify manually to enforce correct linkage order
+        self.cpp_info.libs=["snoregrowl++", "snoregrowl"]
         if self.settings.compiler == "gcc":
             self.cpp_info.libs.append("-lpthread")
 
